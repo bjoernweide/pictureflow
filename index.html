@@ -33,7 +33,7 @@
 	
 	<script id="galleryItemTemplate" type="text/x-jsrender">
 		<li class="galleryItem">
-			<a href="/flow.html#{{:url}}" style="background-image: url({{: ~imageUrl(url, thumb) }})"><span>{{:name}}</span></a>
+			<a href="flow.html#{{:url}}" style="background-image: url({{: ~imageUrl(url, thumb) }})"><span>{{:name}}</span></a>
 		</li>
 	</script>
 
@@ -43,7 +43,7 @@
 			
 			$.views.helpers({
 		 		imageUrl: function(name, thumb) {
-					return "/galleries/" + name + "/preview/" + thumb;
+					return "galleries/" + name + "/preview/" + thumb;
 				}
 			});
 	

@@ -7,10 +7,16 @@
 		
 		var target = this;
 		var url = target.css("background-image");
+		url = url.replace("preview", "full");
 		var realWidth = target.data("width");
 		var realHeight = target.data("height");
 		var isPhotoLandscape = (realWidth > realHeight);
 		var ratio = realHeight / realWidth;
+		var canvas = $("#canvas");
+		
+		canvas.css("height", $(document).height());
+		canvas.css("width", $(document).width());
+		
 		var lightboxContainer = $("#lightbox-container");
 		lightboxContainer.css("height", $(document).height());
 		lightboxContainer.css("width", $(document).width());
