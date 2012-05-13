@@ -17,7 +17,7 @@
 		<section id="lightbox" style="display: none"></section>
 		<!-- JavaScript at the bottom for fast page loading -->
 		<!-- Minimized jQuery from Google CDN -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<!-- HTML5 IE Enabling Script -->
 		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 		<!-- CSS3 Media Queries -->
@@ -49,6 +49,7 @@
 
 				var header = "Photos";
 				var banner = "Bjoern Weide";
+				var photoList;
 
 				if(gallery !== undefined) {
 
@@ -74,10 +75,10 @@
 						mimeType : 'text/plain; charset=x-user-defined'
 					}).done(function(data) {
 						photoList = data.split("\r\n");
+						// shuffle
 						photoList.sort(function() {
 							return 0.5 - Math.random()
 						});
-						// shuffle
 						$(this).loadPhotos(gallery, photoList.slice(0, batchSize), maxGridCount);
 						lastIndex = batchSize;
 					}).fail(function() {

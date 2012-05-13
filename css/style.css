@@ -201,3 +201,47 @@ p.banner {
 	top: 0;
 	opacity: 0.5;
 }
+
+#galleries {
+	width: 500px;
+	position: absolute;
+	bottom: 100px;
+	right: 100px;
+	background-color: rgba(103,101,80,0.8);
+	padding: 20px;
+}
+
+#galleries ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;	
+}
+
+#galleries li {
+	 padding: 10px;
+	 background-color: rgba(120, 120, 120,0.8);
+	 margin-top: 10px;
+}
+
+#galleries h1 {
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 50px;
+	color: #fff;
+	font-weight: normal;
+}
+#galleries a {
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 40px;
+	text-decoration: none;
+	color: #fff;
+	background-position: 0 50%;
+    background-repeat: no-repeat;
+    background-size: 90px auto;
+    margin: 10px;
+    padding: 20px 0 20px 110px;
+    display: block;
+}
+
+body#index {
+	background-size: 100% auto;	
+}
