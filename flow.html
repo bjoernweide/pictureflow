@@ -1,171 +1,109 @@
 <!DOCTYPE html>
-
 <html>
-<head>
-	<!-- Optimized mobile viewport -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<!-- Place favicon.ico and apple-touch-icon.png in root directory -->
-		
-	<link href="css/style.css" rel="stylesheet" />
-</head>
+	<head>
+		<!-- Optimized mobile viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Place favicon.ico and apple-touch-icon.png in root directory -->
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<section id="content">
+			<section id="startTeaser" class="photo g1">
+				<h1></h1><p class="banner"></p>
+			</section>
+			<ul id="photolist"></ul>
+		</section>
+		<section id="lightbox-container" style="display: none"></section>
+		<section id="lightbox" style="display: none"></section>
+		<!-- JavaScript at the bottom for fast page loading -->
+		<!-- Minimized jQuery from Google CDN -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<!-- HTML5 IE Enabling Script -->
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		<!-- CSS3 Media Queries -->
+		<script src="js/respond.min.js"></script>
+		<script src="js/urlparam.js"></script>
+		<script src="js/displaypicture.js"></script>
+		<script src="js/photoloader.js"></script>
+		<script>
+			$(document).ready(function() {
 
-<body>
-	<section id="content">
-		<section id="startTeaser" class="photo g1"><h1></h1><p class="banner"></p></section>
-		<ul id="photolist">
-		</ul>
-	</section>
-	<section id="lightbox-container" style="display: none"></section>
-	<section id="lightbox" style="display: none"></section>
-	<!-- JavaScript at the bottom for fast page loading -->
-
-	<!-- Minimized jQuery from Google CDN -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-
-	<!-- HTML5 IE Enabling Script -->
-	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	
-	<!-- CSS3 Media Queries -->
-	<script src="js/respond.min.js"></script>
-	<script src="js/urlparam.js"></script>
-	<script src="js/displaypicture.js"></script>
-	<script src="js/stackblur.js"></script>
-
-	<script>
-	
-		var currentBoxWidth = $(".g1").css("width");
-		var tabletMode = $(window).width() < 1200;
-		var maxGridCount = 3;
-		if (tabletMode) {
-			maxGridCount = 3;
-		}
-		var photoCount = 0; //used for the id
-		var gridCount = 1; //gridcount for current row /starts with 2 for startteaser
-		var photoList; // list of all photos
-		var lastIndex; // index of last photo
-		var batchSize = 20;
-		
-		function loadPhotos(gallery, photos) {
-			
-			for (index in photos) {
-				if(gridCount == maxGridCount) {
-					gridCount = 0;
+				// index of last photo
+				var batchSize = 20;
+				var currentBoxWidth = $(".g1").css("width");
+				var tabletMode = $(window).width() < 1200;
+				var maxGridCount = 3;
+				if(tabletMode) {
+					maxGridCount = 3;
 				}
-				var photoId = photos[index];
-				var photoUrl = "galleries/" + gallery + "/preview/" + photoId;
-		
-				var boxSize = Math.floor(Math.random()*3) + 1;
-				
-				if (gridCount + boxSize > maxGridCount) {
-					boxSize = maxGridCount - gridCount;
-				}
-				gridCount = gridCount + boxSize;
+				// scroll to top to prevent loading of to much images when reloading page
+				$(window).scrollTop(0);
+				// adjust size of infoteaser
+				$("#startTeaser").css("height", currentBoxWidth);
 
-				var image = new Image();
-				image.src = "";
-				image.src = photoUrl;
-				image.id = photoCount;
-				$(image).load(function() {
-    				var isPhotoLandscape = (this.naturalWidth > this.naturalHeight);
-    				var photo = $("#"+this.id);
-    				var img = $(".img", photo);
-    				img.css("background-image", "url("+this.src+")");
-    				if (photo.hasClass("g1")) {
-    					img.css("background-size", "155%");
-    				}
-    				photo.css("height", currentBoxWidth);
-    				img.css("height", currentBoxWidth);
-    				img.data("width", this.naturalWidth);
-    				img.data("height", this.naturalHeight);
-    				img.click(function() {
-    					$(this).showPicture();
+				// get name of gallery
+				var gallery = $.getUrlVar("gallery");
+				if(gallery === undefined) {
+					gallery = window.location.hash.replace("#", "");
+				}
+
+				var header = "Photos";
+				var banner = "Bjoern Weide";
+
+				if(gallery !== undefined) {
+
+					$.ajax({
+						url : "galleries/" + gallery + "/description.txt",
+						mimeType : 'text/plain; charset=x-user-defined'
+					}).done(function(data) {
+						var lines = data.split("\r\n");
+						if(lines.length > 1) {
+							header = lines[0];
+							banner = lines[1];
+						}
+						$("#startTeaser h1").text(header);
+						$("#startTeaser p.banner").text(banner);
+					}).fail(function() {
+						if(console && console.log) {
+							console.log("ERROR");
+						}
 					});
-    				$("#"+this.id).show();
-				}); 
-				var imageListElement = '<li id='+photoCount+' class="photo g'+boxSize+'" style="display:none;">';
-				imageListElement += '<a href="#' + gallery + '"><div class="img"></div></a>';
-				imageListElement += '</li>';
-				$("#photolist").append(imageListElement);
-				photoCount++;
-			}
-		}
-		
-		function adjustBoxSizes() {
-			var photos = $(".photo");
-			console.log("#photos: "+photos.length);
-			currentBoxWidth = $(".g1").css("width");
-			for(var i=0,j=photos.length; i<j; i++){
-				$(photos[i]).css("height", currentBoxWidth);
-			};
-		}
-		
-		$(document).ready(function() {
-						
-			$(window).scrollTop(0); // scroll to top to prevent loading of to much images when reloading page
-			
-			$("#startTeaser").css("height", currentBoxWidth);
-			
-			var gallery = $.getUrlVar("gallery");
-			if (gallery === undefined) {
-				gallery = window.location.hash.replace("#", "");
-			}
-			
-			var header = "Photos";
-			var banner = "Bjoern Weide";
-			
-			if (gallery !== undefined) { 	
 
-				$.ajax({
-	  				url: "galleries/" + gallery + "/description.txt",
-	  				mimeType: 'text/plain; charset=x-user-defined'
-				}).done(function ( data ) {
-					var lines = data.split("\r\n");
-					if (lines.length > 1) {
-						header = lines[0];
-						banner = lines[1];
+					$.ajax({
+						url : "galleries/" + gallery + "/filelist.txt",
+						mimeType : 'text/plain; charset=x-user-defined'
+					}).done(function(data) {
+						photoList = data.split("\r\n");
+						photoList.sort(function() {
+							return 0.5 - Math.random()
+						});
+						// shuffle
+						$(this).loadPhotos(gallery, photoList.slice(0, batchSize), maxGridCount);
+						lastIndex = batchSize;
+					}).fail(function() {
+						if(console && console.log) {
+							console.log("ERROR");
+						}
+					});
+				}
+
+				$(window).scroll(function() {
+					// when scrolled to the end of the page -> load next batch
+					if($(window).scrollTop() == $(document).height() - $(window).height()) {
+						var endIndex = lastIndex + batchSize;
+						$(this).loadPhotos(gallery, photoList.slice(lastIndex, endIndex), maxGridCount);
+						lastIndex = endIndex;
 					}
-					$("#startTeaser h1").text(header);
-					$("#startTeaser p.banner").text(banner);
-				}).fail(function () {
-					  if( console && console.log ) {
-					    console.log("ERROR");
-					  } 
 				});
-				
-				$.ajax({
-	  				url: "galleries/" + gallery + "/filelist.txt",
-	  				mimeType: 'text/plain; charset=x-user-defined'
-				}).done(function ( data ) {
-					photoList = data.split("\r\n");
-					photoList.sort(function() {return 0.5 - Math.random()}); // shuffle
-					loadPhotos(gallery, photoList.slice(0, batchSize));
-					lastIndex = batchSize;
-				}).fail(function () {
-					  if( console && console.log ) {
-					    console.log("ERROR");
-					  } 
+				var timeOut = false;
+				$(window).resize(function() {
+					if(timeOut !== false)
+						clearTimeout(timeOut);
+					timeOut = setTimeout($(this).adjustBoxSizes, 200);
+					//200 is time in miliseconds
 				});
-				
-			}
-			
-			$(window).scroll(function(){
-				// when scrolled to the end of the page -> load next batch
-		        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
-		        	var endIndex = lastIndex + batchSize;
-		           	loadPhotos(gallery, photoList.slice(lastIndex, endIndex));
-		           	lastIndex = endIndex;
-		        }
 			});
-		
-			var timeOut = false;
-			$(window).resize(function(){
-			if(timeOut !== false)
-			    clearTimeout(timeOut);
-			 	timeOut = setTimeout(adjustBoxSizes, 200); //200 is time in miliseconds
-			});	
- 		});
-	</script>
-	
-</body>
+
+		</script>
+	</body>
 </html>

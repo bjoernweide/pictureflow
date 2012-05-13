@@ -19,11 +19,11 @@
 		var height = 0;
 		var width = 0;
 		if (isPhotoLandscape) {
-			height = $(window).height() - 250;
-			width = $(window).width() * ratio;
+			height = $(window).height() - 150;
+			width = height / ratio;
 		} else {
-			height = $(window).height() - 250;
-			width = $(window).width() * ratio;			
+			height = $(window).height() - 150;
+			width = height / ratio;			
 		}
 		lightbox.css("height", height);
 		lightbox.css("width", width);
