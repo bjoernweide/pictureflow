@@ -14,6 +14,8 @@
 		var ratio = realHeight / realWidth;
 		var canvas = $("#canvas");
 		
+		$(".photo").addClass("blur");
+		
 		canvas.css("height", $(document).height());
 		canvas.css("width", $(document).width());
 		
@@ -25,23 +27,29 @@
 		var height = 0;
 		var width = 0;
 		if (isPhotoLandscape) {
-			height = $(window).height() - 150;
+			height = $(window).height() - 70;
 			width = height / ratio;
 		} else {
-			height = $(window).height() - 150;
+			height = $(window).height() - 70;
 			width = height / ratio;			
 		}
 		lightbox.css("height", height);
 		lightbox.css("width", width);
 		var offset = $(window).scrollTop();
-		lightbox.css("top", offset + ($(window).height() - height - 100) / 2);
+		var lightBoxTop = (offset + ($(window).height() - height - 30) / 2);
+		lightbox.css("top", lightBoxTop);
 		lightbox.css("left", ($(window).width() - width) / 2);
 		lightbox.css("background-image", url);
+		
+		var lightboxNavigation = $("#lightbox-navigation");
+		lightboxNavigation.css("top", lightBoxTop + height + 5);
 		lightbox.click(function() {
+			$(".photo").removeClass("blur");
 			lightbox.fadeOut(200);
+			lightboxNavigation.hide();
 			$("#lightbox-container").fadeOut(200);
 		});
 		lightbox.show();
-
+		lightboxNavigation.show();		
 	};
 })(jQuery);

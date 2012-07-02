@@ -3,7 +3,7 @@
 	<head>
 		<!-- Optimized mobile viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- Place favicon.ico and apple-touch-icon.png in root directory -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300' rel='stylesheet' type='text/css'>
 		<link href="css/style.css" rel="stylesheet" />
 	</head>
 	<body>
@@ -16,6 +16,10 @@
 		<canvas></canvas>
 		<section id="lightbox-container" style="display: none"></section>
 		<section id="lightbox" style="display: none"></section>
+		<section id="lightbox-navigation" style="display: block">
+			<a href="#" id="#previousPictureLink"><img src="images/arrow-right.png" /></a>
+			<a href="#" id="#nextPictureLink"><img src="images/arrow-left.png" /></a>
+		</section>
 		<!-- JavaScript at the bottom for fast page loading -->
 		<!-- Minimized jQuery from Google CDN -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -26,7 +30,7 @@
 		<script src="js/urlparam.js"></script>
 		<script src="js/displaypicture.js"></script>
 		<script src="js/photoloader.js"></script>
-		<script src="js/stackblur.js"></script>
+		<script src="js/waitforimages.js"></script>
 		<script src="js/html2canvas.min.js"></script>
 		<script src="js/jquery.plugin.html2canvas.js"></script>
 		<script>
@@ -102,8 +106,9 @@
 				});
 				var timeOut = false;
 				$(window).resize(function() {
-					if(timeOut !== false)
+					if(timeOut !== false) {
 						clearTimeout(timeOut);
+					}
 					timeOut = setTimeout($(this).adjustBoxSizes, 200);
 					//200 is time in miliseconds
 				});

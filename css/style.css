@@ -17,12 +17,12 @@ body {margin: 0; min-height: 100%; -webkit-font-smoothing:antialiased; font-smoo
 /* DEFAULT FONT SETTINGS */
 /* 16px base font size with 150% (24px) friendly, unitless line height and margin for vertical rhythm */
 /* Font-size percentage is based on 16px browser default size */
-body, button, input, select, textarea {font: 100%/1.5 Georgia,Palatino,"Palatino Linotype",Times,"Times New Roman",serif; *font-size: 1em; color: #333} /* IE7 and older can't resize px based text */
+body, button, input, select, textarea {font: 100%/1.5 'Open Sans Condensed', sans-serif; *font-size: 1em; color: #333} /* IE7 and older can't resize px based text */
 p, blockquote, q, pre, address, hr, code, samp, dl, ol, ul, form, table, fieldset, menu, img {margin: 0 0 1.5em; padding: 0}
 
 /* TYPOGRAPHY */
 /* Composed to a scale of 12px, 14px, 16px, 18px, 21px, 24px, 36px, 48px, 60px and 72px */
-h1, h2, h3, h4, h5, h6 {font-family:Futura, "Century Gothic", AppleGothic, sans-serif;color:#222;text-shadow:1px 1px 1px rgba(0,0,0,.10)}
+h1, h2, h3, h4, h5, h6 {font-family:'Open Sans Condensed', sans-serif;color:#222;font-weight: normal;}
 h1 {margin: 0; font-size: 3.2em; line-height: 1.2em; margin-bottom: 0.4em} /* 60px / 72px */
 h2 {margin: 0; font-size: 2em; line-height: 1em; margin-bottom: 0.5em} /* 48px / 48px */
 h3 {margin: 0; font-size: 1.8em; line-height: 1.3333333333333333333333333333333em; margin-bottom: 0.6667em} /* 36px / 48px */ 
@@ -66,7 +66,6 @@ var, address {font-style: normal}
 sub, sup {font-size: 75%; line-height: 0; position: relative; vertical-align: baseline} /* Position 'sub' and 'sup' without affecting line-height */
 sup {top: -0.5em} /* Move superscripted text up */
 sub {bottom: -0.25em} /* Move subscripted text down */
-span.amp{font-family:Adobe Caslon Pro,Baskerville,"Goudy Old Style","Palatino","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",Times,serif;font-style:italic;font-size:110%;line-height:0;position:relative;vertical-align:baseline} /* Best available ampersand */
 
 /* MICRO CLEARFIX HACK */
 .cf:before, .cf:after {content:"";display:table} /* For modern browsers */
@@ -125,7 +124,7 @@ Change widths as necessary
 	}
 
 	p.banner {
-		font-size: 2em;
+		font-size: 1.5em;
 	}	
 }
 
@@ -140,11 +139,11 @@ Change widths as necessary
 	.g3 {width:48.0%;}	
 	
 	#startTeaser h1 {
-		font-size: 2.5em;
+		font-size: 3.5em;
 	}
 	
 	p.banner {
-		font-size: 1.3em;
+		font-size: 1.5em;
 	}
 }
 
@@ -155,6 +154,11 @@ Change widths as necessary
 	-moz-transition: height 0.3s; /* Firefox 4 */
 	-webkit-transition: height 0.3s; /* Safari and Chrome */
 	-o-transition: height 0.3s; /* Opera */
+}
+
+.blur {
+	-webkit-filter: blur(5px);
+	filter: url(blur.svg#gaussian_blur);
 }
 
 .photo .img {
@@ -176,7 +180,7 @@ Change widths as necessary
 }
 
 p.banner {
-	font-family:Futura, "Century Gothic", AppleGothic, sans-serif;color:#222;text-shadow:1px 1px 1px rgba(0,0,0,.10);
+	font-family:'Open Sans Condensed', sans-serif;color:#222;font-weight: normal;
 	position: absolute;
 	bottom: 0;
 	margin: 0 0 1% 0;
@@ -185,21 +189,27 @@ p.banner {
 #lightbox {
 	background-color: #ccc;
 	position: absolute;
-	margin: 50px;
 	left: 0;
 	top: 0;
-	background-size: 100%;
-	box-shadow: 8px 8px 8px #555,
-               -8px 8px 8px #555,
-                8px -8px 8px #555,
-               -8px -8px 8px #555;
+	background-size: 101%;
 }
 #lightbox-container {
-	background-color: #ccc;
+	background-color: #000;
 	position: absolute;
 	left: 0;
 	top: 0;
-	opacity: 0.5;
+	opacity: 0.8;
+}
+
+#lightbox-navigation {
+	position: absolute;
+	bottom: -20px;
+	width: 100px;
+	left: 49%;
+}
+
+#nextPictureLink {
+	padding-left: 5px;	
 }
 
 #galleries {
