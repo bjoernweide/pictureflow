@@ -16,10 +16,12 @@
 		<canvas></canvas>
 		<section id="lightbox-container" style="display: none"></section>
 		<section id="lightbox" style="display: none"></section>
-		<section id="lightbox-navigation" style="display: block">
-			<a href="#" id="#previousPictureLink"><img src="images/arrow-right.png" /></a>
-			<a href="#" id="#nextPictureLink"><img src="images/arrow-left.png" /></a>
+		<section id="lightbox-navigation" style="display: none">
+			<a href="#" id="previousPictureLink"><img src="images/arrow-right.png" /></a>
+			<a href="#" id="nextPictureLink"><img src="images/arrow-left.png" /></a>
+			
 		</section>
+		<a href="#" id="closeLink"><img src="images/cross.png" /></a>
 		<!-- JavaScript at the bottom for fast page loading -->
 		<!-- Minimized jQuery from Google CDN -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -30,9 +32,7 @@
 		<script src="js/urlparam.js"></script>
 		<script src="js/displaypicture.js"></script>
 		<script src="js/photoloader.js"></script>
-		<script src="js/waitforimages.js"></script>
-		<script src="js/html2canvas.min.js"></script>
-		<script src="js/jquery.plugin.html2canvas.js"></script>
+		<script src="js/lightbox_navigation.js"></script>
 		<script>
 			$(document).ready(function() {
 
@@ -41,6 +41,7 @@
 				var currentBoxWidth = $(".g1").css("width");
 				var tabletMode = $(window).width() < 1200;
 				var maxGridCount = 3;
+				var selectedPhoto = -1;
 				if(tabletMode) {
 					maxGridCount = 3;
 				}
@@ -111,6 +112,16 @@
 					}
 					timeOut = setTimeout($(this).adjustBoxSizes, 200);
 					//200 is time in miliseconds
+				});
+				
+				$("#previousPictureLink").click(function() {
+					showPreviousPicture();
+				});
+				$("#nextPictureLink").click(function() {
+					showNextPicture();
+				});
+				$("#closeLink").click(function() {
+					closeLightBox();
 				});
 			});
 
